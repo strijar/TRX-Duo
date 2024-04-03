@@ -7,8 +7,8 @@
 #include "zynq-7000.dtsi"
 
 / {
-	model = "Avnet ZedBoard board";
-	compatible = "avnet,zynq-zed", "xlnx,zynq-zed", "xlnx,zynq-7000";
+	model = "TRX Duo SDR";
+	compatible = "xlnx,zynq-zed", "xlnx,zynq-7000";
 
 	aliases {
 		ethernet0 = &gem0;
@@ -34,6 +34,23 @@
 		view-port = <0x0170>;
 		drv-vbus;
 	};
+
+	gpio-leds {
+		compatible = "gpio-leds";
+		led-8-yellow {
+			label = "led8";
+			gpios = <&gpio0 0 0>;
+			default-state = "off";
+			linux,default-trigger = "mmc0";
+		};
+		led-9-red {
+			label = "led9";
+			gpios = <&gpio0 7 0>;
+			default-state = "off";
+			linux,default-trigger = "heartbeat";
+		};
+	};
+
 };
 
 &clkc {
@@ -44,6 +61,7 @@
 	status = "okay";
 	phy-mode = "rgmii-id";
 	phy-handle = <&ethernet_phy>;
+	local-mac-address = [46 28 FA DA 2F B4];
 
 	ethernet_phy: ethernet-phy@0 {
 		reg = <0>;
@@ -103,3 +121,4 @@
 	dr_mode = "host";
 	usb-phy = <&usb_phy0>;
 };
+
